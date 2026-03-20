@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+const msg = new SpeechSynthesisUtterance("You are very gay!");
+msg.rate = 1;
+msg.pitch = 1;
+msg.volume = 1;
+
+// Try auto play
+window.onload = () => {
+  speechSynthesis.speak(msg);
+};
+
+// Fallback for iPhone (needs interaction)
+document.body.addEventListener('click', () => {
+  speechSynthesis.speak(msg);
+});
+</script>
+
+Tap anywhere if it doesn't speak.
+</body>
+</html>
