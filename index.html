@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>You are Gay – Auto Text-to-Speech</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
+      cursor: pointer;
+      user-select: none;
+    }
+    h1 {
+      font-size: 2.5rem;
+      color: #333;
+      margin-bottom: 0.5rem;
+    }
+    .click-me {
+      font-size: 1.4rem;
+      color: #4a90e2;
+      margin-bottom: 1.5rem;
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+  <h1>You are Gay</h1>
+  <p class="click-me">Click me</p>
+
+  <script>
+    const MESSAGE = "You are Gay";
+
+    function speak() {
+      if (!window.speechSynthesis) {
+        alert("Sorry, your browser does not support the Web Speech API.");
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(MESSAGE);
+      window.speechSynthesis.speak(utterance);
+    }
+
+    // Clicking anywhere on the page plays the TTS.
+    document.addEventListener("click", function () {
+      speak();
+    });
+
+    // Autoplay on page load.
+    // Many browsers require a user gesture before allowing audio, so we attempt
+    // to speak immediately. If blocked, the click listener above handles the
+    // first user interaction automatically.
+    window.addEventListener("load", function () {
+      speak();
+    });
+  </script>
+</body>
+</html>
