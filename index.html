@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>You are Gay – Auto Text-to-Speech</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f0f4f8;
+    }
+    h1 {
+      font-size: 2.5rem;
+      color: #333;
+      margin-bottom: 1.5rem;
+    }
+    button {
+      padding: 0.75rem 2rem;
+      font-size: 1.1rem;
+      border: none;
+      border-radius: 8px;
+      background: #4a90e2;
+      color: #fff;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #357abd;
+    }
+  </style>
+</head>
+<body>
+  <h1>You are Gay</h1>
+  <button onclick="speak()">🔊 Play again</button>
+
+  <script>
+    const MESSAGE = "You are Gay";
+
+    function speak() {
+      if (!window.speechSynthesis) {
+        alert("Sorry, your browser does not support the Web Speech API.");
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const utterance = new SpeechSynthesisUtterance(MESSAGE);
+      window.speechSynthesis.speak(utterance);
+    }
+
+    // Autoplay on page load.
+    // Many browsers require a user gesture before allowing audio, so we attempt
+    // to speak immediately and fall back to speaking on the first user interaction.
+    window.addEventListener("load", function () {
+      let autoplayed = false;
+
+      if (window.speechSynthesis) {
+        const utterance = new SpeechSynthesisUtterance(MESSAGE);
+        utterance.onstart = function () { autoplayed = true; };
+        window.speechSynthesis.speak(utterance);
+      }
+
+      // Fallback: play on first interaction only if autoplay was blocked.
+      function onFirstInteraction() {
+        document.removeEventListener("click", onFirstInteraction);
+        document.removeEventListener("keydown", onFirstInteraction);
+        if (!autoplayed) {
+          speak();
+        }
+      }
+      document.addEventListener("click", onFirstInteraction);
+      document.addEventListener("keydown", onFirstInteraction);
+    });
+  </script>
+</body>
+</html>
